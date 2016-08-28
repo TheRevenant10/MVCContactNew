@@ -1,0 +1,242 @@
+﻿@model ContactBOL.ContactModel
+
+<script src="~/Scripts/jquery-3.1.0.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+       
+
+        $("#reset").click(function (e) {
+            debugger;
+
+            $(':input', formContact).each(function () {
+                var type = this.type;
+                var tag = this.tagName.toLowerCase(); // normalize case
+                // to reset the value attr of text inputs,
+                
+                if (type == 'text')
+                    this.value = "";
+                    // checkboxes and radios need to have their checked state cleared
+                    // select elements need to have their 'selectedIndex' property set to -1
+                    // (this works for both single and multiple select elements)
+                else if (tag == 'select')
+                    this.selectedIndex = 0;
+            });            
+
+        });
+
+      
+        $("#formContact").submit(function (e) {
+                                        
+            var serializedForm = $(this).serialize();
+          
+            if ($("#FirstName").val() == "" || $("#Company").val() == "" || $("#JobTitle").val() == "" || $("#EmailAddress").val() == "") {
+                e.preventDefault();
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("SaveContact","ContactForm")',
+                    type: "GET",
+                    data: serializedForm,
+                    dataType: "html",
+
+                    success: function (result) {
+                       
+                        $("#txtBoxContact").append(result);
+                    },
+                    error: function (result) {
+                        alert("Failed");
+                    }
+
+                });
+                return false;
+            }
+            
+        });
+
+    });
+</script>
+
+<!Doctype html>
+<html>
+<head>
+    <style type="text/css">
+        .contact {
+            width: 46%;
+            float: left;
+            border: 1px solid #000;
+            margin-left: 3%;
+        }
+
+        .list {
+            width: 46%;
+            float: left;
+            margin-bottom: 15px;
+            margin-left: 2%;
+        }
+
+        h3 {
+            background-color: #d9d9d9;
+            padding: 15px 20px;
+            margin-top: 0px;
+            color: #fff;
+        }
+
+        .label {
+            float: left;
+            width: 20%;
+            margin-bottom: 15px;
+            padding-left: 5%;
+        }
+
+        .text {
+            float: left;
+            width: 75%;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            height: 30px;
+            width: 45%;
+            text-indent: 5px;
+        }
+
+        .mrgbottom {
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 45.5%;
+            height: 35px;
+        }
+
+        .lbllist {
+            border: 1px solid #000;
+            padding: 30px 20px;
+            margin-bottom: 10px;
+        }
+
+        input[type="button"] {
+            background-color: orange;
+              padding: 3px 15px;
+            color: #fff;
+            border: 1px solid orange;
+            border-radius: 3px;
+            margin-bottom: 3%;
+            float: right;
+            margin-right: 5%;
+        }
+    </style>
+    <title></title>
+</head>
+
+
+
+<body>
+    <div>
+        <div class="contact">
+            @using(Html.BeginForm("SaveContact", "ContactForm", FormMethod.Get, new { @id="formContact",@encType = "multipart/form-data" }))
+            {            
+                    
+            @Html.ValidationSummary(true)
+            <div>
+                <h3>Add Contact</h3>
+            </div>
+
+
+            <div class="label">
+                <label>Name :</label>
+            </div>
+            <div class="text">
+
+                @Html.TextBoxFor(m => m.FirstName, new { type = "text", placeholder = "First Name" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+
+                @Html.TextBoxFor(m => m.LastName, new { type = "text", placeholder = "Last Name" })
+               
+            </div>
+            <div class="label">
+                <label>Company :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.Company, new { type = "text", placeholder = "Company" })
+                @Html.ValidationMessageFor(m => m.Company)
+            </div>
+            <div class="label">
+                <label>Job Title :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.JobTitle, new { type = "text", placeholder = "Job Title" })
+                @Html.ValidationMessageFor(m => m.JobTitle)
+            </div>
+            <div class="label">
+                <label>Email Address :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.EmailAddress, new { type = "text", placeholder = "Email" })
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </div>
+            <div class="label">
+                <label>Phone :</label>
+            </div>
+            <div class="text">
+
+                @Html.TextBoxFor(m => m.PhoneNumberBusiness, new { type = "text", placeholder = "Business", @class = "mrgbottom" })
+
+                @Html.TextBoxFor(m => m.PhoneNumberHome, new { type = "text", placeholder = "Home", @class = "mrgbottom" })
+                <div>
+
+                    @Html.TextBoxFor(m => m.PhoneNumberBusinessFax, new { type = "text", placeholder = "Business Fax" })
+
+                    @Html.TextBoxFor(m => m.PhoneNumberMobile, new { type = "text", placeholder = "Mobile" })
+                </div>
+            </div>
+            <div class="label">
+                <label>Address :</label>
+            </div>
+            <div class="text">
+
+                @Html.TextBoxFor(m => m.AddressLine1, new { type = "text", placeholder = "Address Line 1", style = "width:92%;", @class = "mrgbottom" })
+                <div>
+
+                    @Html.TextBoxFor(m => m.AddressLine2, new { type = "text", placeholder = "Address Line 2", style = "width:92%;" })
+                </div>
+            </div>
+            <div class="label">
+            </div>
+            <div class="text">
+
+                @Html.TextBoxFor(m => m.City, new { type = "text", placeholder = "City/Town", @class = "mrgbottom" })
+
+                @Html.TextBoxFor(m => m.State, new { type = "text", placeholder = "State", @class = "mrgbottom" })
+                <div>
+
+                    @Html.TextBoxFor(m => m.ZipCode, new { type = "text", placeholder = "Zipcode" })
+                    @*@Html.DropDownList("ddlCountires", new SelectList(Model.Countries, "ID", "Name", 0), "--Select Country--")*@
+                    @Html.DropDownListFor(m=>m.Country,new SelectList(Model.Countries,"Name","Name",0),"-- Select Country --")
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Save" id="save" style="float: right; margin-right: 40px; margin-bottom: 20px;" />
+                <input type="button" value="Reset" id="reset" style="float: right; margin-right: 10px; margin-bottom: 20px;" />
+            </div>
+                
+            }
+
+        </div>
+
+        <div class="list">
+            <div class="" id="txtBoxContact">
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+

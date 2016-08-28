@@ -1,0 +1,113 @@
+﻿@model ContactBOL.ContactModel
+
+@{
+    ViewBag.Title = "Contact";
+}
+
+<h2>Contact</h2>
+
+<script src="~/Scripts/jquery-3.1.0.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function (e) {
+
+        $("#btnSave").click(function () {
+            debugger;
+
+            var url = '@Url.Action("SaveContact", "Contact")';
+
+            var country = $("#ddlCountires option:selected").text();
+            var firstName = $("#FirstName").val();
+            var lastName = $("#LastName").val();
+            var phnBusiness = $("#PhoneNumberBusiness").val();
+            var phnMobile = $("#PhoneNumberMobile").val();
+            var adrsLine1 = $("#AddressLine1").val();
+            var adrsLine2 = $("#AddressLine2").val();
+            
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: { FirstName: firstName, LastName: lastName, PhoneNumberBusiness: phnBusiness, PhoneNumberMobile: phnMobile, AddressLine1: adrsLine1, AddressLine2: adrsLine2 , Country: country },
+                dataType:"html",
+
+                success: function (data) {
+                    debugger;
+
+                    $("#two").append(data);
+
+                },
+
+
+            });
+        });
+
+    });
+
+</script>
+
+<div style="width:100%;">
+    <!-- Main Div -->
+
+    <div id="one" style="width: 50%;height: 200px;float: left;">
+        <h3>Add Contact</h3>
+        <br />
+        <div style="float: left; width: 50%;">
+            <label>First Name</label>
+            @*<input id="firstName" type="text" name=""/>*@
+            @Html.TextBoxFor(x => x.FirstName, new { type = "text", placeholder = "First Name" })
+        </div>
+        <div style="float: left;width: 50%;">
+            <label>Last Name</label>
+            @*<input id="lastName" type="text" name="" />*@
+            @Html.TextBoxFor(x => x.LastName, new { type = "text", placeholder = "Last Name" })
+        </div>
+        <br /><br />
+        <div>
+            <label>Phone Business</label>
+            @*<input id="lastName" type="text" name="" />*@
+            @Html.TextBoxFor(x => x.PhoneNumberBusiness, new { type = "text", placeholder = "Business" })
+        </div>
+        <br />
+        <div>
+            <label>Phone Mobile</label>
+            @*<input id="lastName" type="text" name="" />*@
+            @Html.TextBoxFor(x => x.PhoneNumberMobile, new { type = "text", placeholder = "Mobile" })
+        </div>
+        <br />
+
+        <div>
+            <label>Address Line1</label>
+            @*<input id="lastName" type="text" name="" />*@
+            @Html.TextBoxFor(x => x.AddressLine1, new { type = "text", placeholder = "Address Line1" })
+        </div>
+
+        <br />
+
+        <div>
+            <label>Address Line2</label>
+            @*<input id="lastName" type="text" name="" />*@
+            @Html.TextBoxFor(x => x.AddressLine2, new { type = "text", placeholder = "Address Line2" })
+        </div>
+        <br />
+        <div>
+            <label>Country</label>
+            @Html.DropDownList("ddlCountires",new SelectList(Model.Countries,"ID","Name",0),"--Select Country--")            
+       
+        </div>
+        <div>
+            <input type="button" name="Save" id="btnSave" value="Save"/>
+        </div>
+    </div>
+
+
+
+
+
+
+    <div id="two" style="margin-left: 50%;height: 200px;">
+                  
+    </div>
+
+</div>
+

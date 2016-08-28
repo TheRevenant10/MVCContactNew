@@ -1,0 +1,17 @@
+﻿@model List<ContactBOL.ContactModel>
+
+<div style="border: 1px solid #000; padding:15px 10px;margin-bottom:10px;">
+
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        @*@Html.TextBoxFor(m => Model[i].FullName, new { type = "text", style = "width:100px;" , @readonly="readonly"})*@
+      <p style="margin:3px;">@Model[i].FullName</p>
+      <p style="margin:3px;">@Model[i].JobTitle</p>
+      <p style="margin:3px;">@Model[i].EmailAddress</p>
+      <p style="margin:3px;">@Model[i].Company</p>
+      <p style="margin:3px;">@Model[i].Country</p>
+      <p style="margin:3px;">@Model[i].City</p>
+      <p style="margin:3px;">@Model[i].State</p>
+    }
+
+</div>

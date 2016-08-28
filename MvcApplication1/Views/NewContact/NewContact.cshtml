@@ -1,0 +1,220 @@
+﻿@model ContactBOL.ContactModel
+
+@{
+    ViewBag.Title = "NewContact";
+}
+
+<script src="~/Scripts/jquery-3.1.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#save").click(function () {
+            debugger;
+
+            var url = '@Url.Action("SaveContact", "NewContact")';
+
+            var country = $("#ddlCountires option:selected").text();
+            var firstName = $("#FirstName").val();
+            var lastName = $("#LastName").val();
+            var phnBusiness = $("#PhoneNumberBusiness").val();
+            var phnMobile = $("#PhoneNumberMobile").val();
+            var adrsLine1 = $("#AddressLine1").val();
+            var adrsLine2 = $("#AddressLine2").val();
+
+            if (firstName != "" && country != "--Select Country--")
+            {
+                $.ajax({
+
+                    type: "GET",
+                    url: url,
+                    data: { FirstName: firstName, LastName: lastName, PhoneNumberBusiness: phnBusiness, PhoneNumberMobile: phnMobile, AddressLine1: adrsLine1, AddressLine2: adrsLine2, Country: country },
+                    dataType: "html",
+
+                    success: function (data) {
+                        debugger;
+
+                        $("#txtBoxContact").append(data);
+
+                    },
+
+                });
+            }
+            else {
+                alert('First Name and Country field is required!!.');
+                return false;
+            }
+
+        });
+
+    });
+</script>
+
+<!Doctype html>
+<html>
+<head>
+    <style type="text/css">
+        .contact {
+            width: 46%;
+            float: left;
+            border: 1px solid #000;
+            margin-left: 3%;
+        }
+
+        .list {
+            width: 46%;
+            float: left;
+            margin-bottom: 15px;
+            margin-left: 2%;
+        }
+
+        h3 {
+            background-color: #d9d9d9;
+            padding: 15px 20px;
+            margin-top: 0px;
+            color: #fff;
+        }
+
+        .label {
+            float: left;
+            width: 20%;
+            margin-bottom: 15px;
+            padding-left: 5%;
+        }
+
+        .text {
+            float: left;
+            width: 75%;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            height: 30px;
+            width: 45%;
+            text-indent: 5px;
+        }
+
+        .mrgbottom {
+            margin-bottom: 10px;
+        }
+
+        select {
+            width: 45.5%;
+            height: 35px;
+        }
+
+        .lbllist {
+            border: 1px solid #000;
+            padding: 30px 20px;
+            margin-bottom: 10px;
+        }
+
+        input[type="button"] {
+            background-color: orange;
+            padding: 6px 40px;
+            color: #fff;
+            border: 1px solid orange;
+            border-radius: 3px;
+            margin-bottom: 3%;
+            float: right;
+            margin-right: 5%;
+        }
+    </style>
+    <title></title>
+</head>
+
+
+
+<body>
+    <div>
+        <div class="contact">
+
+            <div>
+                <h3>Add Contact</h3>
+            </div>
+            <div class="label">
+                <label>Name :</label>
+            </div>
+            <div class="text">
+               
+                @Html.TextBoxFor(m => m.FirstName, new { type = "text", placeholder = "First Name" })   
+              
+                         
+                @Html.TextBoxFor(m => m.LastName, new { type = "text", placeholder = "Last Name" })
+               
+            </div>
+            <div class="label">
+                <label>Company :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.Company, new { type = "text", placeholder = "Company" })
+               
+            </div>
+            <div class="label">
+                <label>Job Title :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.JobTitle, new { type = "text", placeholder = "Job Title" })
+              
+            </div>
+            <div class="label">
+                <label>Email Address :</label>
+            </div>
+            <div class="text">
+                @Html.TextBoxFor(m => m.EmailAddress, new { type = "text", placeholder = "Email" })
+               
+            </div>
+            <div class="label">
+                <label>Phone :</label>
+            </div>
+            <div class="text">
+          
+                @Html.TextBoxFor(m => m.PhoneNumberBusiness, new { type = "text", placeholder = "Business", @class = "mrgbottom" })
+            
+                @Html.TextBoxFor(m => m.PhoneNumberHome, new { type = "text", placeholder = "Home", @class = "mrgbottom" })
+                <div>
+                   
+                    @Html.TextBoxFor(m => m.PhoneNumberBusinessFax, new { type="text",placeholder="Business Fax"})
+                  
+                    @Html.TextBoxFor(m => m.PhoneNumberMobile, new { type="text",placeholder="Mobile"})
+                </div>
+            </div>
+            <div class="label">
+                <label>Address :</label>
+            </div>
+            <div class="text">
+              
+                @Html.TextBoxFor(m => m.AddressLine1, new { type = "text", placeholder = "Address Line 1", style = "width:92%;" , @class="mrgbottom"})
+                <div>
+                  
+                    @Html.TextBoxFor(m => m.AddressLine2, new { type = "text", placeholder = "Address Line 2", style = "width:92%;" })
+                </div>
+            </div>
+            <div class="label">
+            </div>
+            <div class="text">
+              
+                @Html.TextBoxFor(m => m.City, new { type = "text", placeholder = "City/Town", @class = "mrgbottom" })
+             
+                @Html.TextBoxFor(m => m.State, new { type = "text", placeholder = "State", @class = "mrgbottom" })
+                <div>
+                  
+                    @Html.TextBoxFor(m => m.ZipCode, new { type="text",placeholder="Zipcode"})                 
+                    @Html.DropDownList("ddlCountires", new SelectList(Model.Countries, "ID", "Name", 0), "--Select Country--")
+                </div>
+            </div>
+            <div>
+                <input type="button" value="Save" id="save" />
+            </div>
+
+
+        </div>
+        <div class="list">
+            <div class="lbllist" id="txtBoxContact">
+
+            </div>
+           
+        </div>
+    </div>
+</body>
+</html>

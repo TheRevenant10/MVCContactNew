@@ -1,0 +1,10 @@
+﻿@model List<ContactBOL.ContactModel>
+
+<div style="border: 1px solid #000; padding:15px 10px; margin-bottom: 10px;">
+
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        @Html.TextBoxFor(m => Model[i].FirstName, new { type = "text", style = "width:100px;" })
+    }
+
+</div>
