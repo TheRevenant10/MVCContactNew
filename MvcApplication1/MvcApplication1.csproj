@@ -126,9 +126,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ContactFormController.cs" />
-    <Compile Include="Controllers\NewContactController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,10 +209,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Contact\Contact.cshtml" />
-    <Content Include="Views\Contact\_ContactDetails.cshtml" />
-    <Content Include="Views\NewContact\NewContact.cshtml" />
-    <Content Include="Views\NewContact\_NewContactDetails.cshtml" />
     <Content Include="Views\ContactForm\ContactForm.cshtml" />
     <Content Include="Views\Error.cshtml" />
     <Content Include="Views\ContactForm\_NewContactFormDetails.cshtml" />
